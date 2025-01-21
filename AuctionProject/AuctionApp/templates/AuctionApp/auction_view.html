@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <meta charset="UTF-8">
+        <title>Trading Browser</title>
+    </head>
+<body>
+
+
+
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'AuctionApp:TradePage' %}">Trading Browser!</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+            <li>
+                
+                <h3>Logged in as: {{user.username}}</h2>
+                <a href="{% url 'AuctionApp:logout' %}"><buttom class="btn btn-dark">Logout</buttom></a>
+                <a href="{% url 'AuctionApp:createauction' %}"><button class="btn btn-dark">Create Auction</button></a>
+            </li>
+            {% else %}
+            <li>
+                <a href="{% url 'AuctionApp:registration' %}"><button class="btn btn-dark">Sign-Up</button></a>
+                <a href="{% url 'AuctionApp:login' %}"><button class="btn btn-dark">Login</button></a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+
+{% if user.is_authenticated %}
+    <h1 class="text-center">Current Trades</h1>
+    {% if auction_list %}
+    <div class="container">
+        <div class="card-deck"> 
+            {% for auction in auction_list %}
+            {% if auction.ForSale == True %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body bg-light">
+                            <h5 class="card-title">{{ auction.Title }}</h5>
+                            <p class="card-text"> Item for Sale: {{ auction.ItemSell }}</p>
+                            <p class="card-text"> Item Requesting: {{ auction.ItemBuy }}</p>
+                            <p class="card-text"> Discord User: {{ auction.ContactInfo }}</p>
+                            <!--<a href="{% url 'AuctionApp:removeauction' auction_id=auction.id %}" method="post">{{ auction.user }}</a>-->
+                            <p class="card-text">Owner: {{ auction.user }}</p>
+                            {% if user.username|stringformat:"s" == auction.user|stringformat:"s" %}
+                                <form action="{% url 'AuctionApp:removeauction' auction_id=auction.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-dark" type="submit">Remove</button>
+                                </form>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% else %}
+        Auctions dont exist aww
+    {% endif %}
+{% else %}
+    <div class="d-flex min-vh-100 justify-content-center align-items-center">
+        <h2 class="text-center"> Please login to view trades! </h2>
+    </div>
+{% endif %}
+</body>

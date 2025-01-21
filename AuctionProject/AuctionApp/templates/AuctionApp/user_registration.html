@@ -1,0 +1,76 @@
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Online Courses</title>
+</head>
+
+
+
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'AuctionApp:TradePage' %}">Trading Browser!</a>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+            {% if user.is_authenticated %}
+            <li>
+                <h3>Logged in as: {{user.username}}</h2>
+                <a href="{% url 'AuctionApp:logout' %}"><buttom class="btn btn-dark">Logout</buttom></a>
+            </li>
+            {% else %}
+            <li>
+                <a href="{% url 'AuctionApp:registration' %}"><button class="btn btn-dark">Sign-Up</button></a>
+                <a href="{% url 'AuctionApp:login' %}"><button class="btn btn-dark">Login</button></a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+
+<form action="{% url 'AuctionApp:registration' %}" method="post" class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="text-center">Sign Up</h1>
+      <hr>
+      <div class="mb-3">
+        <label for="username" class="form-label"><b>User Name</b></label>
+        <input type="text" class="form-control" placeholder="Enter User Name" name="username" required>
+      </div>
+      <div class="mb-3">
+        <label for="firstname" class="form-label"><b>First Name</b></label>
+        <input type="text" class="form-control" placeholder="Enter First Name" name="firstname" required>
+      </div>
+      <div class="mb-3">
+        <label for="lastname" class="form-label"><b>Last Name</b></label>
+        <input type="text" class="form-control" placeholder="Enter Last Name" name="lastname" required>
+      </div>
+      <div class="mb-3">
+        <label for="psw" class="form-label"><b>Password</b></label>
+        <input type="password" class="form-control" placeholder="Enter Password" name="psw" required>
+      </div>
+      <div>
+        {% csrf_token %}
+        <button class="btn btn-dark w-100" type="submit">Sign Up</button>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!--<form action="{% url 'AuctionApp:registration' %}" method="post">
+    <h1>Sign Up</h1>
+    <hr>
+    <label for="username"><b>User Name</b></label>
+    <input type="text" placeholder="Enter User Name: " name="username" required>
+    <label for="firstname"><b>First Name</b></label>
+    <input type="text" placeholder="Enter First Name: " name="firstname" required>
+    <label for="lastname"><b>Last Name</b></label>
+    <input type="text" placeholder="Enter Last Name: " name="lastname" required>
+    <label for="psw"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password: " name="psw" required>
+    <div>
+        {% csrf_token %}
+        <button class="button" type="submit">Sign Up</button>
+    </div>
+</form>-->

@@ -1,0 +1,90 @@
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>Online Courses</title>
+</head>
+
+
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="{% url 'AuctionApp:TradePage' %}">Trading Browser!</a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+        <li>
+            <h3>Logged in as: {{user.username}}</h2>
+            <a href="{% url 'AuctionApp:logout' %}"><buttom class="btn btn-dark">Logout</buttom></a>
+        </li>
+        {% else %}
+        <li>
+            <a href="{% url 'AuctionApp:registration' %}"><button class="btn btn-dark">Sign-Up</button></a>
+            <a href="{% url 'AuctionApp:login' %}"><button class="btn btn-dark">Login</button></a>
+        </li>
+        {% endif %}
+    </ul>
+  </div>
+</nav>
+
+
+
+{% if user.is_authenticated %}
+  <form action="{% url 'AuctionApp:createauction' %}" method="post" class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h1 class="text-center">Create Auction</h1>
+        <hr>
+        
+        <div class="mb-3">
+          <label for="sellitem" class="form-label"><b>Item to Sell</b></label>
+          <input type="text" class="form-control" placeholder="Item" name="sellitem" required>
+        </div>
+        
+        <div class="mb-3">
+          <label for="buyitem" class="form-label"><b>Item you want</b></label>
+          <input type="text" class="form-control" placeholder="Item" name="buyitem" required>
+        </div>
+        
+        <div class="mb-3">
+          <label for="title" class="form-label"><b>Trade Title</b></label>
+          <input type="text" class="form-control" placeholder="Title" name="title" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="contact" class="form-label"><b>Discord</b></label>
+          <input type="text" class="form-control" placeholder="Discord Info" name="contact" required>
+        </div>
+        
+        <div>
+          {% csrf_token %}
+          <button class="btn btn-dark w-100" type="submit">Create</button>
+        </div>
+      </div>
+    </div>
+  </form>
+{% else %}
+  <div class="container mt-5">
+    <p>You aren't logged in! Please <a href="{% url 'AuctionApp:login' %}">Login</a> to create an auction.</p>
+  </div>
+{% endif %}
+
+
+<!--{% if user.is_authenticated %}
+    <form action="{% url 'AuctionApp:createauction' %}"  method="post">
+        {% csrf_token %}
+          <h1>Create Auction</h1>
+          <label for="sellitem"><b>Item to Sell</b></label>
+          <input type="text" placeholder="Item" name="sellitem" required>
+          <label for="buyitem"><b>Item you want</b></label>
+          <input type="text" placeholder="Item" name="buyitem" required>
+          <label for="title"><b>Trade Title</b></label>
+          <input type="text" placeholder="Disc" name="title" required>
+          <div>
+            <button class="button" type="submit">Create</button>
+          </div>
+      </form>
+    {% else %}
+    you arn't logged in! Please login:
+    <a href="{% url 'AuctionApp:login' %}">Login</a>
+{% endif %} -->
